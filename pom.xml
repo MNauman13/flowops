@@ -22,5 +22,6 @@
 
     <modules>
         <module>backend/api-app</module>
+        <module>backend/worker-app</module>
     </modules>
 </project>
