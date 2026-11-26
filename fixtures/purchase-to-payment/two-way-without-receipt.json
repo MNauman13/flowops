@@ -1,0 +1,104 @@
+{
+  "summary": "A two-way case needs an invoice but does not require a receipt. A waiting check uses the case evaluation clock.",
+  "flowCategory": "TWO_WAY",
+  "events": [
+    {
+      "externalEventId": "po-103-1",
+      "sourceSequence": 1,
+      "caseKey": {
+        "document": "PO-103",
+        "item": "10"
+      },
+      "occurredAt": "2026-11-20T09:00:00Z",
+      "activityCode": "PURCHASE_ORDER_CREATED",
+      "eventType": "PO_VALUE_SET",
+      "amount": {
+        "value": "120.0000",
+        "unit": "GBP"
+      },
+      "attributes": {
+        "flowCategory": "TWO_WAY"
+      }
+    },
+    {
+      "externalEventId": "po-103-2",
+      "sourceSequence": 2,
+      "caseKey": {
+        "document": "PO-103",
+        "item": "10"
+      },
+      "occurredAt": "2026-11-23T11:00:00Z",
+      "activityCode": "INVOICE_RECORDED",
+      "eventType": "INVOICE_DELTA",
+      "amount": {
+        "value": "120.0000",
+        "unit": "GBP"
+      },
+      "references": {
+        "invoiceId": "INV-1"
+      }
+    },
+    {
+      "externalEventId": "po-103-3",
+      "sourceSequence": 3,
+      "caseKey": {
+        "document": "PO-103",
+        "item": "10"
+      },
+      "occurredAt": "2026-11-23T12:00:00Z",
+      "activityCode": "INVOICE_CLEARING_RECORDED",
+      "eventType": "CLEARING_RECORDED",
+      "references": {
+        "invoiceId": "INV-1"
+      }
+    }
+  ],
+  "checkpoints": [
+    {
+      "name": "at-72-hours",
+      "asOf": "2026-11-23T09:00:00Z",
+      "afterArrivals": 1,
+      "orderedEventIds": [
+        "po-103-1"
+      ],
+      "projection": {
+        "expectedValue": "120.0000"
+      },
+      "ruleResults": {
+        "WAITING_TOO_LONG": "PASS"
+      }
+    },
+    {
+      "name": "after-72-hours",
+      "asOf": "2026-11-23T10:00:00Z",
+      "afterArrivals": 1,
+      "orderedEventIds": [
+        "po-103-1"
+      ],
+      "projection": {
+        "expectedValue": "120.0000"
+      },
+      "ruleResults": {
+        "WAITING_TOO_LONG": "FAIL"
+      }
+    },
+    {
+      "name": "at-clearing",
+      "asOf": "2026-11-23T12:00:00Z",
+      "afterArrivals": 3,
+      "orderedEventIds": [
+        "po-103-1",
+        "po-103-2",
+        "po-103-3"
+      ],
+      "projection": {
+        "expectedValue": "120.0000",
+        "invoiceNetValue": "120.0000"
+      },
+      "ruleResults": {
+        "CLEARING_PREREQUISITE_MISSING": "PASS",
+        "VALUE_MISMATCH": "PASS"
+      }
+    }
+  ]
+}

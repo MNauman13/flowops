@@ -1,0 +1,59 @@
+{
+  "summary": "The purchase-item history has receipts but no invoice. Invoice matching for consignment is unknown.",
+  "flowCategory": "CONSIGNMENT",
+  "events": [
+    {
+      "externalEventId": "po-104-1",
+      "sourceSequence": 1,
+      "caseKey": {
+        "document": "PO-104",
+        "item": "10"
+      },
+      "occurredAt": "2026-11-20T09:00:00Z",
+      "activityCode": "PURCHASE_ORDER_CREATED",
+      "eventType": "PO_VALUE_SET",
+      "amount": {
+        "value": "120.0000",
+        "unit": "GBP"
+      },
+      "attributes": {
+        "flowCategory": "CONSIGNMENT"
+      }
+    },
+    {
+      "externalEventId": "po-104-2",
+      "sourceSequence": 2,
+      "caseKey": {
+        "document": "PO-104",
+        "item": "10"
+      },
+      "occurredAt": "2026-11-20T10:00:00Z",
+      "activityCode": "GOODS_RECEIPT_RECORDED",
+      "eventType": "RECEIPT_DELTA",
+      "amount": {
+        "value": "120.0000",
+        "unit": "GBP"
+      },
+      "references": {
+        "receiptId": "GR-1"
+      }
+    }
+  ],
+  "checkpoints": [
+    {
+      "name": "receipt-observed",
+      "asOf": "2026-11-20T10:00:00Z",
+      "afterArrivals": 2,
+      "orderedEventIds": [
+        "po-104-1",
+        "po-104-2"
+      ],
+      "projection": {
+        "receiptNetValue": "120.0000"
+      },
+      "ruleResults": {
+        "VALUE_MISMATCH": "UNKNOWN"
+      }
+    }
+  ]
+}

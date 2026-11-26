@@ -47,3 +47,4 @@ jobs:
       - run: python contracts/events/test_canonical_event.py -v
       - run: openapi-spec-validator contracts/openapi/ingestion.openapi.json
       - run: python contracts/openapi/test_ingestion_contract.py -v
+      - run: python fixtures/purchase-to-payment/test_fixtures.py -v
