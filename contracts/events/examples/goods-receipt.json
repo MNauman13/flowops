@@ -1,0 +1,21 @@
+{
+  "externalEventId": "evt-1042",
+  "sourceSequence": 42,
+  "caseKey": {
+    "document": "PO-100",
+    "item": "10"
+  },
+  "occurredAt": "2026-11-26T10:15:00Z",
+  "activityCode": "GOODS_RECEIPT_RECORDED",
+  "eventType": "RECEIPT_DELTA",
+  "amount": {
+    "value": "120.0000",
+    "unit": "GBP"
+  },
+  "attributes": {
+    "flowCategory": "THREE_WAY_GR_BASED"
+  },
+  "references": {
+    "receiptId": "GR-7"
+  }
+}

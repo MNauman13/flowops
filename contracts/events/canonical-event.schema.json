@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FlowOps canonical event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "externalEventId",
+    "sourceSequence",
+    "caseKey",
+    "occurredAt",
+    "activityCode",
+    "eventType"
+  ],
+  "properties": {
+    "externalEventId": { "type": "string", "minLength": 1 },
+    "sourceSequence": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9223372036854775807
+    },
+    "caseKey": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["document", "item"],
+      "properties": {
+        "document": { "$ref": "#/$defs/caseKeyPart" },
+        "item": { "$ref": "#/$defs/caseKeyPart" }
+      }
+    },
+    "occurredAt": { "type": "string", "format": "date-time" },
+    "activityCode": { "type": "string", "minLength": 1 },
+    "eventType": {
+      "enum": [
+        "PO_VALUE_SET",
+        "RECEIPT_DELTA",
+        "INVOICE_DELTA",
+        "CLEARING_RECORDED",
+        "CASE_CANCELLED",
+        "ACTIVITY_OBSERVED"
+      ]
+    },
+    "amount": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "unit"],
+      "properties": {
+        "value": {
+          "type": "string",
+          "pattern": "^-?(0|[1-9][0-9]{0,15})(\\.[0-9]{1,4})?$"
+        },
+        "unit": { "type": "string", "minLength": 1 }
+      }
+    },
+    "attributes": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "flowCategory": {
+          "enum": [
+            "THREE_WAY_GR_BASED",
+            "THREE_WAY_NON_GR_BASED",
+            "TWO_WAY",
+            "CONSIGNMENT"
+          ]
+        }
+      }
+    },
+    "references": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "receiptId": { "type": ["string", "null"], "minLength": 1 },
+        "invoiceId": { "type": ["string", "null"], "minLength": 1 },
+        "reversesEventId": { "type": ["string", "null"], "minLength": 1 }
+      }
+    }
+  },
+  "$defs": {
+    "caseKeyPart": { "type": "string", "minLength": 1, "maxLength": 128 }
+  }
+}
