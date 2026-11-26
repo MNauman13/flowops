@@ -1,5 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:flowops:schema:canonical-event:v1",
   "title": "FlowOps canonical event",
   "type": "object",
   "additionalProperties": false,

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FlowOps accepted event notification v1",
+  "type": "object",
+  "required": [
+    "messageId",
+    "schemaVersion",
+    "type",
+    "tenantId",
+    "workspaceId",
+    "caseId",
+    "recordedAt",
+    "correlationId",
+    "payload"
+  ],
+  "properties": {
+    "messageId": { "$ref": "#/$defs/id" },
+    "schemaVersion": { "type": "integer", "const": 1 },
+    "type": { "const": "flowops.event.accepted.v1" },
+    "tenantId": { "$ref": "#/$defs/id" },
+    "workspaceId": { "$ref": "#/$defs/id" },
+    "caseId": { "$ref": "#/$defs/id" },
+    "recordedAt": { "type": "string", "format": "date-time" },
+    "correlationId": { "type": "string", "minLength": 1 },
+    "payload": {
+      "type": "object",
+      "required": ["eventId"],
+      "properties": {
+        "eventId": { "$ref": "#/$defs/id" }
+      }
+    }
+  },
+  "$defs": {
+    "id": { "type": "string", "format": "uuid" }
+  }
+}
