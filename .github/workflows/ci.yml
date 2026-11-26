@@ -45,3 +45,5 @@ jobs:
           python-version: '3.12'
       - run: python -m pip install -r contracts/requirements.txt
       - run: python contracts/events/test_canonical_event.py -v
+      - run: openapi-spec-validator contracts/openapi/ingestion.openapi.json
+      - run: python contracts/openapi/test_ingestion_contract.py -v

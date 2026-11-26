@@ -53,9 +53,17 @@ class EventBatchTest(unittest.TestCase):
     def setUpClass(cls):
         event_schema = read_json("canonical-event.schema.json")
         registry = Registry().with_resource(
-            event_schema["$id"], Resource.from_contents(event_schema)
+            (EVENTS_DIR / "canonical-event.schema.json").as_uri(),
+            Resource.from_contents(event_schema),
         )
-        cls.validator = make_validator("event-batch.schema.json", registry=registry)
+        batch_schema = read_json("event-batch.schema.json")
+        batch_schema["$id"] = (EVENTS_DIR / "event-batch.schema.json").as_uri()
+        Draft202012Validator.check_schema(batch_schema)
+        cls.validator = Draft202012Validator(
+            batch_schema,
+            registry=registry,
+            format_checker=Draft202012Validator.FORMAT_CHECKER,
+        )
 
     def test_accepts_minimum_and_maximum_batch_sizes(self):
         receipt = read_json("examples/goods-receipt.json")
