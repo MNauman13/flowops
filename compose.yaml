@@ -1,0 +1,20 @@
+name: flowops
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: flowops
+      POSTGRES_USER: flowops
+      POSTGRES_PASSWORD: ${FLOWOPS_POSTGRES_PASSWORD:?Set FLOWOPS_POSTGRES_PASSWORD in the local .env file}
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-h", "127.0.0.1", "-U", "flowops", "-d", "flowops"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  postgres-data:
